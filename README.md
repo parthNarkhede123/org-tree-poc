@@ -1,17 +1,35 @@
-# Org Tree – API Test UI (Agents Validation)
+# AgentsValidation_poc (Traditional React)
 
-React + Vite + TypeScript + Tailwind. Ready for Vercel/Netlify/CF Pages.
+A traditional React project (Create React App style with `react-scripts`) that wraps the **Automation Testing** UI for running the `AgentsValidation` script and downloading outputs/logs.
 
-## Local dev
+## Prerequisites
+- Node.js 18+ (recommend 20 LTS)
+- npm
+
+## Getting Started
 ```bash
-npm i
-npm run dev
+npm install
+npm start
 ```
 
-## Deploy
-- **Vercel**: Framework = Vite, Build = `npm run build`, Output = `dist`
-- **Netlify**: Build = `npm run build`, Publish = `dist`
-- **Cloudflare Pages**: Build = `npm run build`, Output = `dist`
+Open http://localhost:3000
 
-### CORS
-Enable CORS on your API Gateway routes or proxy via host functions.
+## What this app does
+- Run the `AgentsValidation` script via the provided AWS API Gateway endpoint.
+- Poll for recent executions and display status/logs.
+- Download generated PDFs and **force-download** `.txt` logs using the presigned S3 URL returned by the `download-url` endpoint.
+
+## Notes
+- Styling is via **Tailwind CDN** included in `public/index.html` (no Vite/PostCSS setup needed).
+- Lightweight UI primitives live in `src/components/ui`.
+- Icons use `lucide-react`.
+
+## Troubleshooting
+- **CORS/401/403** on fetch calls: your API Gateway or S3 bucket may restrict origins; update CORS on the gateway and/or bucket.
+- **Downloads not working**: the app expects JSON like `{ "downloadUrl": "<presigned-s3-url>" }` from the `download-url` endpoint.
+- **Logs not downloading**: `.txt` files are blob-downloaded to guarantee a save dialog; PDFs and others open in a new tab.
+
+## Scripts
+- `npm start` - start local dev server
+- `npm run build` - build for production
+- `npm test` - run tests (none added in this POC)
